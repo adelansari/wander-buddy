@@ -1,13 +1,33 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import 'tailwindcss/tailwind.css';
+import axios from 'axios';
 
 const LandingPage = () => {
-  const [search, setSearch] = useState('');
+  const [value, setValue] = useState('');
 
-  const handleSearch = () => {
-    console.log('Searching for:', search);
+  const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setValue(e.target.value);
+  };
+
+  const handleSearch = async () => {
+    try {
+      // Get weather forecast
+      const weatherResponse = await axios.get(`http://api.openweathermap.org/data/2.5/weather`, {
+        params: {
+          q: value,
+          appid: import.meta.env.VITE_OPENWEATHER_API_KEY,
+        },
+      });
+      const weatherData = weatherResponse.data;
+
+      console.log('Weather data:', weatherData);
+    } catch (error) {
+      console.error('Error:', error);
+      if ((error as any).response && (error as any).response.data && (error as any).response.data.message) {
+        console.error('Error message:', (error as any).response.data.message);
+      }
+    }
   };
 
   return (
@@ -23,12 +43,7 @@ const LandingPage = () => {
         <li>Plan your travel itinerary</li>
       </ul>
       <div className='flex items-center'>
-        <Input
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          placeholder='Search destinations'
-          className='mr-2'
-        />
+        <Input value={value} onChange={handleInput} placeholder='Search Places ...' className='location-search-input' />
         <Button onClick={handleSearch}>Search</Button>
       </div>
     </div>
