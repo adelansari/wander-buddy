@@ -31,9 +31,10 @@ const LandingPage = () => {
 
   return (
     <div className='p-4'>
-      <h1 className='text-4xl mb-4'>Travel Buddy</h1>
+      <h1 className='text-3xl text-center mb-4'>Your Pocket-sized Pathfinder.</h1>
       <p className='mb-4'>
-        Wander Buddy is your one-stop destination for all your travel needs. Search, Plan and Enjoy!
+        Wander Buddy is your one-stop destination for all your travel needs. Discover, Forecast, and Craft your
+        adventure!
       </p>
       <h2 className='text-2xl mb-4'>Features</h2>
       <ul className='list-disc list-inside mb-4'>
