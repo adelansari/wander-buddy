@@ -9,6 +9,8 @@ Wander-Buddy is a travel buddy application built with React and Symfony. It help
     npm install
     npm run dev
     ```
+- Both the frontend and backend applications use environment variables for configuration. These are stored in `.env` files. Before running the applications, you need to create a `.env` file in both the `frontend` and `backend` directories. These files should be based on the `.env.example` files in the respective directories.
+
 
 ## Branching Strategy
 
