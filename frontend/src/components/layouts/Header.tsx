@@ -4,16 +4,10 @@ import logo from '../../assets/logoTravelBuddy.svg';
 export const Header = () => {
   return (
     <>
-      <header className='flex items-center justify-center gap-4 min-h-[3rem] md:h-20 py-2 md:flex-row'>
+      <header className='flex flex-col items-center justify-center py-2'>
+        <img src={logo} alt='Travel Buddy Logo' className='w-[150px] h-[150px] filter dark:invert' />
         <PageHeader>
-          <div className="flex flex-col items-center">
-            <img 
-              src={logo} 
-              alt="Travel Buddy Logo" 
-              className="h-10 w-10 md:h-12 md:w-12 filter dark:invert mb-2" 
-            />
-            <PageHeaderHeading className='text-4xl mb-4'>Wander Buddy</PageHeaderHeading>
-          </div>
+          <PageHeaderHeading className='text-4xl mb-4'>Wander Buddy</PageHeaderHeading>
         </PageHeader>
       </header>
     </>
