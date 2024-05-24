@@ -12,11 +12,10 @@ const LandingPage = () => {
 
   const handleSearch = async () => {
     try {
-      // Get weather forecast
-      const weatherResponse = await axios.get(`http://api.openweathermap.org/data/2.5/weather`, {
+      // Get weather forecast from Symfony backend
+      const weatherResponse = await axios.get(`${import.meta.env.VITE_BACKEND_WEATHER_URL}/api/weather`, {
         params: {
-          q: value,
-          appid: import.meta.env.VITE_OPENWEATHER_API_KEY,
+          location: value,
         },
       });
       const weatherData = weatherResponse.data;
