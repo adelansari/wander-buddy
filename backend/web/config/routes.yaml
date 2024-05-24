@@ -5,3 +5,8 @@ controllers:
 kernel:
     resource: ../src/Kernel.php
     type: annotation
+
+weather:
+    path: /api/weather
+    controller: App\Controller\WeatherController::getWeather
+    methods: GET
