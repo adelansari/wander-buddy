@@ -1,7 +1,7 @@
 nelmio_cors:
     defaults:
         origin_regex: false
-        allow_origin: ['*']
+        allow_origin: ['*'] # replace with production domain later
         allow_methods: ['GET', 'OPTIONS', 'POST', 'PUT', 'PATCH', 'DELETE']
         allow_headers: ['Content-Type', 'Authorization']
         expose_headers: ['Link']
