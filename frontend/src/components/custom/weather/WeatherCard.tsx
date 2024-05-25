@@ -19,8 +19,7 @@ interface WeatherCardProps {
 
 const WeatherCard: React.FC<WeatherCardProps> = ({ weatherData }) => {
   const { name, main, weather } = weatherData;
-  const temperature = main.temp;
-  const humidity = main.humidity;
+  const {temp, humidity} = main;
   const { description, icon } = weather[0];
 
   return (
@@ -33,7 +32,7 @@ const WeatherCard: React.FC<WeatherCardProps> = ({ weatherData }) => {
         <div className='grid w-full items-center gap-4'>
           <div className='flex flex-col space-y-1.5'>
             <img className='w-20 h-20' src={`http://openweathermap.org/img/wn/${icon}.png`} alt='Weather icon' />
-            <div>Temperature: {temperature}°C</div>
+            <div>Temperature: {temp}°C</div>
             <div>Humidity: {humidity}%</div>
           </div>
         </div>
