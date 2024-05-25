@@ -2,7 +2,7 @@ import { Outlet } from 'react-router-dom';
 import { Header } from './Header';
 import { Footer } from './Footer';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
-import { ModeToggle } from '../mode-toggle';
+import { ModeToggle } from '../custom/themes/mode-toggle';
 import Logo from '../../assets/logoTravelBuddy.svg';
 
 export function Applayout() {
