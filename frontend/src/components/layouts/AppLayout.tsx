@@ -16,7 +16,7 @@ export function Applayout() {
         <ModeToggle />
       </nav>
       <Header />
-      <div className='flex-grow flex flex-col'>
+      <div className='flex-grow flex flex-col pb-20'>
         <div className='container px-4 md:px-8 flex-grow flex flex-col'>
           <Outlet />
         </div>
