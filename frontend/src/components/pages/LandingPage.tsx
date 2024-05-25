@@ -2,9 +2,11 @@ import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import axios from 'axios';
+import WeatherCard from '../custom/weather/WeatherCard';
 
 const LandingPage = () => {
   const [value, setValue] = useState('');
+  const [weatherData, setWeatherData] = useState(null);
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
@@ -19,8 +21,8 @@ const LandingPage = () => {
         },
       });
       const weatherData = weatherResponse.data;
-
       console.log('Weather data:', weatherData);
+      setWeatherData(weatherData);
     } catch (error) {
       console.error('Error:', error);
       if ((error as any).response && (error as any).response.data && (error as any).response.data.message) {
@@ -46,6 +48,7 @@ const LandingPage = () => {
         <Input value={value} onChange={handleInput} placeholder='Search Places ...' className='location-search-input' />
         <Button onClick={handleSearch}>Search</Button>
       </div>
+      {weatherData && <WeatherCard weatherData={weatherData} />}
     </div>
   );
 };
