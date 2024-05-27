@@ -1,4 +1,4 @@
-import { PageHeader, PageHeaderHeading } from '../page-header';
+import { PageHeader, PageHeaderHeading } from '../custom/themes/page-header';
 import logo from '../../assets/logoTravelBuddy.svg';
 
 export const Header = () => {

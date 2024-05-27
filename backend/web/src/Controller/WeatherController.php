@@ -22,6 +22,7 @@ class WeatherController extends AbstractController
             'query' => [
                 'q' => $location,
                 'appid' => $_ENV['OPENWEATHER_API_KEY'],
+                'units' => 'metric',
             ],
         ]);
 
