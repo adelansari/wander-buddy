@@ -1,6 +1,5 @@
 import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
-import { useTheme } from '@/hooks/useTheme';
 
 interface WeatherData {
   name: string;
@@ -34,75 +33,56 @@ const WeatherCard: React.FC<WeatherCardProps> = ({ weatherData }) => {
   const { speed } = wind;
   const { sunrise, sunset } = sys;
 
-  const { theme } = useTheme();
-  const isDarkMode = theme === 'dark';
+  const dayAndDate = new Intl.DateTimeFormat('en-GB', {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  }).format(new Date());
 
-  const styles = {
-    cardBgColor: isDarkMode ? 'bg-gray-900' : 'bg-white',
-    textColor: isDarkMode ? 'text-gray-300' : 'text-gray-800',
-    headerBgColor: isDarkMode ? 'bg-gray-700' : 'bg-gray-200',
-    rectangleBgColor: isDarkMode ? 'bg-gray-800' : 'bg-white',
-    iconBgColor: isDarkMode ? 'bg-gray-700' : 'bg-gray-200',
-    contentBgColor: isDarkMode ? 'bg-gray-900' : 'bg-gray-100',
-    spaceBgColor: isDarkMode ? 'bg-gray-900' : 'bg-gray-100',
-  };
-
-  const getDayAndDate = () => {
-    const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-    const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-    const currentDate = new Date();
-    const dayOfWeek = days[currentDate.getDay()];
-    const month = months[currentDate.getMonth()];
-    const date = currentDate.getDate();
-    return `${dayOfWeek}, ${month} ${date}`;
-  };
-
-  const dayAndDate = getDayAndDate();
+  const [dayOfWeek, date] = dayAndDate.split(', ');
 
   return (
-    <Card className={`w-[600px] mx-auto mt-4 p-0 shadow-md rounded-lg ${styles.cardBgColor} ${styles.textColor}`}>
-      <div className={`py-2 px-4 mb-4 rounded-t-lg text-center ${styles.headerBgColor}`}>
-        <h2 className="text-xl font-bold">{name} Weather Forecast</h2>
+    <Card className='w-full sm:w-[600px] mx-auto mt-4 p-0 shadow-md rounded-lg bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-300'>
+      <div className='py-2 px-4 rounded-t-lg text-center bg-gray-200 dark:bg-gray-700'>
+        <h2 className='text-xl font-bold'>{name} Weather Forecast</h2>
       </div>
-      <div className={`h-4 ${styles.spaceBgColor}`}></div>
-      <CardContent className={`flex ${styles.contentBgColor}`}>
-        <div className={`flex-1 flex flex-col items-center justify-center ${styles.rectangleBgColor} p-4 rounded-lg shadow-md`}>
-          <div className="text-2xl font-bold mb-1">{dayAndDate}</div>
-          <img className="w-20 h-20 mb-2 rounded-lg" src={`http://openweathermap.org/img/wn/${icon}@2x.png`} alt="Weather icon" />
-          <div className="text-5xl font-bold">{Math.round(temp)}°C</div>
-          <div className="text-sm">{description}</div>
+      <div className='pt-4 h-4 bg-gray-100 dark:bg-gray-900'></div>
+      <CardContent className='flex bg-gray-100 dark:bg-gray-900'>
+        <div className='flex-1 flex flex-col items-center justify-center bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md'>
+          <div className='text-2xl font-bold mb-1 text-center'>
+            <div>{dayOfWeek}</div>
+            <div>{date}</div>
+          </div>
+          <img
+            className='w-20 h-20 mb-2 rounded-lg'
+            src={`http://openweathermap.org/img/wn/${icon}@2x.png`}
+            alt='Weather icon'
+          />
+          <div className='text-5xl font-bold'>{Math.round(temp)}°C</div>
+          <div className='text-sm'>{description}</div>
         </div>
-        <div className="flex-1 grid grid-cols-2 gap-4 ml-4">
-          <div className={`flex flex-col items-center justify-center ${styles.rectangleBgColor} p-4 rounded-lg shadow-md`}>
-            <div className="text-sm">Feels Like</div>
-            <div className="text-xl font-medium">{Math.round(feels_like)}°C</div>
-          </div>
-          <div className={`flex flex-col items-center justify-center ${styles.rectangleBgColor} p-4 rounded-lg shadow-md`}>
-            <div className="text-sm">Humidity</div>
-            <div className="text-xl font-medium">{humidity}%</div>
-          </div>
-          <div className={`flex flex-col items-center justify-center ${styles.rectangleBgColor} p-4 rounded-lg shadow-md`}>
-            <div className="text-sm">Wind Speed</div>
-            <div className="text-xl font-medium">{speed} m/s</div>
-          </div>
-          <div className={`flex flex-col items-center justify-center ${styles.rectangleBgColor} p-4 rounded-lg shadow-md`}>
-            <div className="text-sm">Sunrise</div>
-            <div className="text-lg font-medium">{new Date(sunrise * 1000).toLocaleTimeString()}</div>
-          </div>
-          <div className={`flex flex-col items-center justify-center ${styles.rectangleBgColor} p-4 rounded-lg shadow-md`}>
-            <div className="text-sm">Sunset</div>
-            <div className="text-lg font-medium">{new Date(sunset * 1000).toLocaleTimeString()}</div>
-          </div>
-          <div className={`flex flex-col items-center justify-center ${styles.rectangleBgColor} p-4 rounded-lg shadow-md`}>
-            <div className="text-sm">Pressure</div>
-            <div className="text-lg font-medium">{pressure} hPa</div>
-          </div>
+        <div className='grid grid-cols-1 sm:grid-cols-2 gap-4 ml-4'>
+          {[
+            { label: 'Feels Like', value: `${Math.round(feels_like)}°C` },
+            { label: 'Humidity', value: `${humidity}%` },
+            { label: 'Wind Speed', value: `${speed} m/s` },
+            { label: 'Sunrise', value: new Date(sunrise * 1000).toLocaleTimeString() },
+            { label: 'Sunset', value: new Date(sunset * 1000).toLocaleTimeString() },
+            { label: 'Pressure', value: `${pressure} hPa` },
+          ].map(({ label, value }) => (
+            <div
+              key={label}
+              className='flex flex-col items-center justify-center bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md'
+            >
+              <div className='text-sm'>{label}</div>
+              <div className='text-lg font-medium'>{value}</div>
+            </div>
+          ))}
         </div>
       </CardContent>
     </Card>
   );
 };
-
-
 
 export default WeatherCard;
