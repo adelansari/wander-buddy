@@ -1,4 +1,4 @@
-  import { useState, useEffect } from 'react';
+  import { useState, useRef, useEffect } from 'react';
   import { Button } from '@/components/ui/button';
   import { Input } from '@/components/ui/input';
   import axios from 'axios';
@@ -9,19 +9,24 @@
     const [searchValue, setSearchValue] = useState('');
     const [weatherData, setWeatherData] = useState(null);
 
-
+    const weatherRef = useRef<HTMLDivElement | null>(null);
   
     const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
       setSearchValue(e.target.value);
     };
 
 //function to handal scroll
-
+const scrollToWeatherCard = (ref: React.RefObject<HTMLDivElement>) => {
+  if (ref.current) {
+    console.log("hello");
+    ref.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+};
   
     const handleSearch = async () => {
       try {
         // Get weather forecast from Symfony backend
-
+        scrollToWeatherCard(weatherRef);
         const weatherResponse = await axios.get(`${import.meta.env.VITE_BACKEND_WEATHER_URL}/api/weather`, {
           params: {
             location: searchValue,
@@ -51,7 +56,7 @@
     };
     useEffect(() => {
       if (weatherData) {
-   
+        scrollToWeatherCard(weatherRef);
       }
     }, [weatherData]);
     return (
@@ -76,7 +81,7 @@
           />
           <Button onClick={handleSearch}>Search</Button>
         </div>
-        <div >
+        <div  ref={weatherRef}>
         {weatherData && <WeatherCard weatherData={weatherData} />}
         </div>
       </div>
