@@ -23,7 +23,7 @@ const WeatherCard: React.FC<WeatherCardProps> = ({ weatherData }) => {
   const { description, icon } = weather[0];
 
   return (
-    <Card className='w-[350px] mx-auto mt-4'>
+    <Card  className='w-[350px] mx-auto mt-4'>
       <CardHeader>
         <CardTitle>{name}</CardTitle>
         <CardDescription>{description}</CardDescription>
