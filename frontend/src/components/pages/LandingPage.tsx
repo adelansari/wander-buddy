@@ -18,7 +18,7 @@
 //function to handal scroll
 const scrollToWeatherCard = (ref: React.RefObject<HTMLDivElement>) => {
   if (ref.current) {
-    console.log("hello");
+   // console.log("hello");
     ref.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 };
