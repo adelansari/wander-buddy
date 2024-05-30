@@ -1,12 +1,16 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import axios from 'axios';
 import WeatherCard from '../custom/weather/WeatherCard';
+import { useToast } from '../ui/use-toast';
+import { ToastAction } from '@/components/ui/toast';
 
 const LandingPage = () => {
-  const [searchValue, setSearchValue] = useState('');
+  const [searchValue, setSearchValue] = useState<string>('');
   const [weatherData, setWeatherData] = useState(null);
+  const weatherCardRef = useRef<HTMLDivElement | null>(null);
+  const { toast } = useToast();
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchValue(e.target.value);
@@ -21,15 +25,28 @@ const LandingPage = () => {
         },
       });
       const weatherData = weatherResponse.data;
-      console.log('Weather data:', weatherData);
       setWeatherData(weatherData);
     } catch (error) {
       console.error('Error:', error);
+      let errorMessage = 'An unknown error occurred.';
       if ((error as any).response && (error as any).response.data && (error as any).response.data.message) {
-        console.error('Error message:', (error as any).response.data.message);
+        errorMessage = (error as any).response.data.message;
       }
+      console.error('Error message:', errorMessage);
+      toast({
+        variant: 'destructive',
+        title: 'Uh oh! Something went wrong.',
+        description: 'City not found.',
+        action: <ToastAction altText='Try again'>Try again</ToastAction>,
+      });
     }
   };
+
+  useEffect(() => {
+    if (weatherData && weatherCardRef.current) {
+      weatherCardRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [weatherData]);
 
   return (
     <div className='p-4'>
@@ -53,7 +70,11 @@ const LandingPage = () => {
         />
         <Button onClick={handleSearch}>Search</Button>
       </div>
-      {weatherData && <WeatherCard weatherData={weatherData} />}
+      {weatherData && (
+        <div ref={weatherCardRef}>
+          <WeatherCard weatherData={weatherData} />
+        </div>
+      )}
     </div>
   );
 };
