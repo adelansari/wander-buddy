@@ -3,6 +3,7 @@ import { createBrowserRouter } from 'react-router-dom';
 import { Applayout } from './components/layouts/AppLayout';
 import LandingPage from './components/pages/LandingPage';
 import NoMatch from './components/pages/NoMatch';
+import Discover from './components/pages/Discover';
 
 export const router = createBrowserRouter([
   {
@@ -12,6 +13,10 @@ export const router = createBrowserRouter([
       {
         path: '',
         element: <LandingPage />,
+      },
+      {
+        path: 'discover',
+        element: <Discover />,
       },
     ],
   },
