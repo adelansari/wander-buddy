@@ -1,5 +1,5 @@
 import { Outlet } from 'react-router-dom';
-import { Header } from './Header';
+// import { Header } from './Header';
 import { Footer } from './Footer';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { ModeToggle } from '../custom/themes/mode-toggle';
@@ -15,7 +15,7 @@ export function Applayout() {
         </Avatar>
         <ModeToggle />
       </nav>
-      <Header />
+      {/* <Header /> */}
       <div className='flex-grow flex flex-col pb-20'>
         <div className='container px-4 md:px-8 flex-grow flex flex-col'>
           <Outlet />
