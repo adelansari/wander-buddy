@@ -26,9 +26,11 @@ const HelpMeChoose = () => {
                 imagesLoaded > index ? 'opacity-100' : 'opacity-0'
               }`}
             />
-            <div className='absolute bottom-0 left-0 right-0 flex justify-center items-center bg-black bg-opacity-50 text-white p-2 rounded-t-md font-serif text-xl font-bold'>
-              {city}
-            </div>
+            {imagesLoaded > index && (
+              <div className='absolute bottom-0 left-0 right-0 flex justify-center items-center bg-black bg-opacity-50 text-white p-2 rounded-t-md font-serif text-xl font-bold'>
+                {city}
+              </div>
+            )}
           </div>
         ))}
       </div>
