@@ -1,10 +1,15 @@
-import { Link, Outlet } from 'react-router-dom';
+import { useMatch, Outlet } from 'react-router-dom';
 import { Footer } from './Footer';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { ModeToggle } from '../custom/themes/mode-toggle';
 import Logo from '@/assets/wander-app-logo-v1.svg';
 import { useState } from 'react';
 import { Menu } from 'lucide-react';
+
+const routes = [
+  { path: '/', name: 'Home' },
+  { path: '/discover', name: 'Discover' },
+];
 
 export function AppLayout() {
   const [isOpen, setIsOpen] = useState(false);
@@ -22,12 +27,17 @@ export function AppLayout() {
           </button>
         </div>
         <div className={`${isOpen ? '' : 'hidden'} md:flex`}>
-          <Link to='/' className='block mt-4 md:inline-block md:mt-0 mr-6'>
-            Home
-          </Link>
-          <Link to='/discover' className='block mt-4 md:inline-block md:mt-0 mr-6'>
-            Discover
-          </Link>
+          {routes.map(({ path, name }) => (
+            <a
+              key={path}
+              href={path}
+              className={`block mt-4 md:inline-block md:mt-0 mr-6 ${
+                useMatch(path) ? 'text-cyan-500 border-b-2 border-cyan-500' : ''
+              }`}
+            >
+              {name}
+            </a>
+          ))}
         </div>
         <ModeToggle />
       </nav>
