@@ -1,5 +1,5 @@
 import { PageHeader, PageHeaderHeading } from '../custom/themes/page-header';
-import logo from '../../assets/logoTravelBuddy.svg';
+import logo from '@/assets/wander-app-logo-v1.svg';
 
 export const Header = () => {
   return (

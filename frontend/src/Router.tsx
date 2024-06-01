@@ -1,14 +1,14 @@
 import { createBrowserRouter } from 'react-router-dom';
-
-import { Applayout } from './components/layouts/AppLayout';
 import LandingPage from './components/pages/LandingPage';
 import NoMatch from './components/pages/NoMatch';
 import Discover from './components/pages/Discover';
+import CityDetails from './components/custom/discover/CityDetails';
+import { AppLayout } from './components/layouts/AppLayout';
 
 export const router = createBrowserRouter([
   {
     path: '/',
-    element: <Applayout />,
+    element: <AppLayout />,
     children: [
       {
         path: '',
@@ -17,6 +17,10 @@ export const router = createBrowserRouter([
       {
         path: 'discover',
         element: <Discover />,
+      },
+      {
+        path: 'discover/details/:cityName',
+        element: <CityDetails />,
       },
     ],
   },
