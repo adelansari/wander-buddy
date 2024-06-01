@@ -5,10 +5,12 @@ import axios from 'axios';
 import { ToastAction } from '@/components/ui/toast';
 import { useToast } from '@/components/ui/use-toast';
 import WeatherCard from '../weather/WeatherCard';
+import NoSearchResult from '@/assets/empty.png';
 
 const SearchAll = () => {
   const [searchValue, setSearchValue] = useState<string>('');
   const [weatherData, setWeatherData] = useState(null);
+  const [hasError, setHasError] = useState(false);
   const weatherCardRef = useRef<HTMLDivElement | null>(null);
   const { toast } = useToast();
 
@@ -17,6 +19,7 @@ const SearchAll = () => {
   };
 
   const handleSearch = async () => {
+    setHasError(false);
     try {
       const weatherResponse = await axios.get(`${import.meta.env.VITE_BACKEND_WEATHER_URL}/api/weather`, {
         params: {
@@ -38,6 +41,8 @@ const SearchAll = () => {
         description: 'City not found.',
         action: <ToastAction altText='Try again'>Try again</ToastAction>,
       });
+      setWeatherData(null);
+      setHasError(true);
     }
   };
 
@@ -59,11 +64,13 @@ const SearchAll = () => {
         />
         <Button onClick={handleSearch}>Search</Button>
       </div>
-      {weatherData && (
+      {weatherData ? (
         <div ref={weatherCardRef}>
           <WeatherCard weatherData={weatherData} />
         </div>
-      )}
+      ) : hasError ? (
+        <img src={NoSearchResult} alt='No results found' className='mx-auto w-80 mt-20' />
+      ) : null}
     </div>
   );
 };

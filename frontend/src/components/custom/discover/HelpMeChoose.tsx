@@ -1,11 +1,17 @@
+import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import Spinner from '../spinner/Spinner';
 import { destinationData } from '@/data/destinationData';
 
 const HelpMeChoose = () => {
   const [imagesLoaded, setImagesLoaded] = useState<number>(0);
+  const navigate = useNavigate();
 
   const handleImageLoad = () => setImagesLoaded((prevState) => prevState + 1);
+
+  const handleGridItemClick = (city: string) => {
+    navigate(`/discover/details/${city}`);
+  };
 
   return (
     <div className='p-4'>
@@ -15,12 +21,9 @@ const HelpMeChoose = () => {
           <div
             key={city}
             className='relative h-72 w-full rounded-xl shadow-xl overflow-hidden cursor-pointer transform group hover:scale-105 transition-all duration-300'
+            onClick={() => handleGridItemClick(city)}
           >
-            {imagesLoaded <= index && (
-              <div className='absolute inset-0 flex items-center justify-center'>
-                <Spinner />
-              </div>
-            )}
+            {imagesLoaded <= index && <Spinner />}
             <img
               src={`https://source.unsplash.com/400x400/?${city}`}
               alt={city}
