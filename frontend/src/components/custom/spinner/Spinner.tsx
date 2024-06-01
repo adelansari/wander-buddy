@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import logo from '@/assets/logoTravelBuddy.svg';
+import logo from '@/assets/wander-app-logo-v1.svg';
 
 const Spinner: FC = () => (
   <div className='relative flex justify-center items-center'>
