@@ -2,9 +2,8 @@ import { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 import { ToastAction } from '@/components/ui/toast';
 import { useToast } from '@/components/ui/use-toast';
-import WeatherCard from '../weather/WeatherCard';
+import WeatherCard, { WeatherData } from '../weather/WeatherCard';
 import NoSearchResult from '@/assets/empty.png';
-import { getCityData } from '@/services/opencage';
 import { getAttractionPlaces } from '@/services/opentripmap';
 import Map from './Map';
 import GoogleMap from './GoogleMap';
@@ -12,13 +11,19 @@ import { Place } from './Place';
 import PlacesTable from './PlacesTable';
 import SearchInput from './SearchInput';
 
+interface WeatherDataWithCoord extends WeatherData {
+  coord: {
+    lon: number;
+    lat: number;
+  };
+}
+
 const SearchAll = () => {
   const [searchValue, setSearchValue] = useState<string>('');
-  const [weatherData, setWeatherData] = useState(null);
+  const [weatherData, setWeatherData] = useState<WeatherDataWithCoord | null>(null);
   const [hasError, setHasError] = useState(false);
   const weatherCardRef = useRef<HTMLDivElement | null>(null);
   const { toast } = useToast();
-  const [cityData, setCityData] = useState<any>(null);
   const [places, setPlaces] = useState<Record<string, Place[]>>({});
   const mapRef = useRef<{ addMarkerToMap: (lon: number, lat: number) => void } | null>(null);
 
@@ -43,10 +48,11 @@ const SearchAll = () => {
       });
       setWeatherData(weatherResponse.data);
 
-      const cityDataResponse = await getCityData(searchValue);
-      setCityData(cityDataResponse);
-
-      fetchPlaces(cityDataResponse.geometry.lng, cityDataResponse.geometry.lat);
+      // Extract coordinates from the weather API response
+      const { coord } = weatherResponse.data;
+      if (coord) {
+        fetchPlaces(coord.lon, coord.lat);
+      }
     } catch (error) {
       toast({
         variant: 'destructive',
@@ -69,7 +75,7 @@ const SearchAll = () => {
     <div className='p-4'>
       <h1 className='text-3xl text-center mb-4'>Where to?</h1>
       <SearchInput searchValue={searchValue} handleInput={handleInput} handleSearch={handleSearch} />
-      {cityData && <GoogleMap city={searchValue} />}
+      {weatherData && <GoogleMap city={searchValue} />}
       {weatherData ? (
         <div ref={weatherCardRef}>
           <WeatherCard weatherData={weatherData} />
@@ -80,11 +86,11 @@ const SearchAll = () => {
       {Object.entries(places).map(([category, places]: [string, Place[]]) => (
         <PlacesTable key={category} category={category} places={places} mapRef={mapRef} />
       ))}
-      {cityData && (
+      {weatherData && weatherData.coord && (
         <Map
           ref={mapRef}
-          longitude={cityData.geometry.lng}
-          latitude={cityData.geometry.lat}
+          longitude={weatherData.coord.lon}
+          latitude={weatherData.coord.lat}
           places={Object.values(places).flat()}
         />
       )}
