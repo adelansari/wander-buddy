@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 
-interface WeatherData {
+export interface WeatherData {
   name: string;
   main: {
     temp: number;
