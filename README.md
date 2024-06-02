@@ -75,3 +75,10 @@ git branch -d feature/BE-001
 ```
 
 This strategy ensures a clean and manageable commit history, and it allows multiple developers to work on the project without conflicts.
+
+
+## API used:
+- [OpenWeatherMap](https://openweathermap.org/api)
+- [OpenTripMap](https://dev.opentripmap.org/product)
+- [OpenCage](https://opencagedata.com/api)
+- [Mapbox](https://docs.mapbox.com/mapbox-gl-js/api/map/)
