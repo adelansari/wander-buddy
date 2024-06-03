@@ -9,6 +9,7 @@ import { Menu } from 'lucide-react';
 const routes = [
   { path: '/', name: 'Home' },
   { path: '/discover', name: 'Discover' },
+  { path: '/trips', name: 'Trips' },
 ];
 
 export function AppLayout() {
@@ -17,10 +18,13 @@ export function AppLayout() {
   return (
     <>
       <nav className='flex justify-between items-center p-4'>
+      <div className='flex items-center'>
         <Avatar className='filter dark:invert'>
           <AvatarImage src={Logo} />
           <AvatarFallback>WB</AvatarFallback>
         </Avatar>
+        <span className='ml-2 text-2xl font-medium' style={{ fontFamily: 'Inter, sans-serif', fontSize: '24px' }}>Wander Buddy</span>
+        </div>
         <div className='md:hidden'>
           <button onClick={() => setIsOpen(!isOpen)}>
             <Menu color='currentColor' size={32} />
