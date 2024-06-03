@@ -22,12 +22,12 @@ interface WeatherDataWithCoord extends WeatherData {
 const SearchAll = () => {
   const [searchValue, setSearchValue] = useState<string>('');
   const [weatherData, setWeatherData] = useState<WeatherDataWithCoord | null>(null);
-  const [hasError, setHasError] = useState(false);
-  const weatherCardRef = useRef<HTMLDivElement | null>(null);
-  const { toast } = useToast();
   const [places, setPlaces] = useState<Record<string, Place[]>>({});
-  const mapRef = useRef<{ addMarkerToMap: (lon: number, lat: number) => void } | null>(null);
   const [selectedCategory, setSelectedCategory] = useState('interesting_places');
+  const [hasError, setHasError] = useState(false);
+  const { toast } = useToast();
+  const weatherCardRef = useRef<HTMLDivElement | null>(null);
+  const mapRef = useRef<{ addMarkerToMap: (lon: number, lat: number) => void } | null>(null);
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => setSearchValue(e.target.value);
 
@@ -40,11 +40,6 @@ const SearchAll = () => {
     }
 
     setPlaces(places);
-  };
-
-  const handleTabChange = (event: React.FormEvent<HTMLDivElement>) => {
-    const tabValue = (event.target as HTMLInputElement).value;
-    setSelectedCategory(tabValue);
   };
 
   const handleSearch = async () => {
