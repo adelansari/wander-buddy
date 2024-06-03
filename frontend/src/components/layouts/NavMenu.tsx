@@ -53,7 +53,7 @@ const NavMenu: React.FC<NavMenuProps> = ({ routes }) => {
             <Menu color='currentColor' size={32} />
           </button>
           {isOpen && (
-            <div className='absolute top-12 right-0 p-4 bg-white dark:bg-gray-900 text-gray-800 dark:text-white rounded-lg shadow-lg z-10'>
+            <div className='absolute top-12 right-0 p-4 bg-white dark:bg-gray-900 text-gray-800 dark:text-white rounded-lg shadow-lg z-10 w-48'> {/* Adjust the width here */}
               {routes.map(({ path, name }, index) => (
                 <a
                   key={path}
