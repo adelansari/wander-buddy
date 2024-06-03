@@ -21,6 +21,7 @@ const Map = forwardRef((props: MapProps, ref) => {
   const { longitude, latitude, places } = props;
   const mapContainer = useRef<HTMLDivElement | null>(null);
   const mapInstance = useRef<mapboxgl.Map | null>(null);
+  console.log('Rendering Map with props:', props);
 
   const addMarkerToMap = (lon: number, lat: number) => {
     if (mapInstance.current) {

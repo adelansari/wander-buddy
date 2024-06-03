@@ -10,6 +10,7 @@ import GoogleMap from './GoogleMap';
 import { Place } from './Place';
 import PlacesTable from './PlacesTable';
 import SearchInput from './SearchInput';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 interface WeatherDataWithCoord extends WeatherData {
   coord: {
@@ -26,6 +27,7 @@ const SearchAll = () => {
   const { toast } = useToast();
   const [places, setPlaces] = useState<Record<string, Place[]>>({});
   const mapRef = useRef<{ addMarkerToMap: (lon: number, lat: number) => void } | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState('interesting_places');
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => setSearchValue(e.target.value);
 
@@ -38,6 +40,11 @@ const SearchAll = () => {
     }
 
     setPlaces(places);
+  };
+
+  const handleTabChange = (event: React.FormEvent<HTMLDivElement>) => {
+    const tabValue = (event.target as HTMLInputElement).value;
+    setSelectedCategory(tabValue);
   };
 
   const handleSearch = async () => {
@@ -83,15 +90,26 @@ const SearchAll = () => {
       ) : hasError ? (
         <img src={NoSearchResult} alt='No results found' className='mx-auto w-80 mt-20' />
       ) : null}
-      {Object.entries(places).map(([category, places]: [string, Place[]]) => (
-        <PlacesTable key={category} category={category} places={places} mapRef={mapRef} />
-      ))}
+      <Tabs defaultValue='interesting_places' className='w-full'>
+        <TabsList>
+          {Object.keys(places).map((category) => (
+            <TabsTrigger key={category} value={category} onClick={() => setSelectedCategory(category)}>
+              {category}
+            </TabsTrigger>
+          ))}
+        </TabsList>
+        {Object.entries(places).map(([category, places]: [string, Place[]]) => (
+          <TabsContent key={category} value={category}>
+            <PlacesTable category={category} places={places} mapRef={mapRef} />
+          </TabsContent>
+        ))}
+      </Tabs>
       {weatherData && weatherData.coord && (
         <Map
           ref={mapRef}
           longitude={weatherData.coord.lon}
           latitude={weatherData.coord.lat}
-          places={Object.values(places).flat()}
+          places={places[selectedCategory] || []}
         />
       )}
     </div>
