@@ -19,7 +19,7 @@ const NavMenu: React.FC<NavMenuProps> = ({ routes }) => {
   const matches = routes.map(route => useMatch(route.path));
 
   return (
-    <nav className='relative flex justify-between items-center p-4 bg-white dark:bg-gray-900 text-gray-800 dark:text-white'>
+    <nav className='sticky top-0 z-20 flex justify-between items-center p-4 bg-white dark:bg-gray-900 text-gray-800 dark:text-white'>
       <div className='flex items-center'>
         <a href="/" className="flex items-center">
           <Avatar className='filter dark:invert'>
@@ -53,7 +53,7 @@ const NavMenu: React.FC<NavMenuProps> = ({ routes }) => {
             <Menu color='currentColor' size={32} />
           </button>
           {isOpen && (
-            <div className='absolute top-12 right-0 p-4 bg-white dark:bg-gray-900 text-gray-800 dark:text-white rounded-lg shadow-lg z-10 w-48'> {/* Adjust the width here */}
+            <div className='absolute top-12 right-0 p-4 bg-white dark:bg-gray-900 text-gray-800 dark:text-white rounded-lg shadow-lg z-10 w-48'>
               {routes.map(({ path, name }, index) => (
                 <a
                   key={path}
