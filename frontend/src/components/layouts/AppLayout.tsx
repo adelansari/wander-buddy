@@ -25,16 +25,18 @@ export function AppLayout() {
     <>
       <nav className='relative flex justify-between items-center p-4'>
         <div className='flex items-center'>
-          <Avatar className='filter dark:invert'>
-            <AvatarImage src={Logo} />
-            <AvatarFallback>WB</AvatarFallback>
-          </Avatar>
-          <span
-            className='ml-2 text-2xl font-medium'
-            style={{ fontFamily: 'Inter, sans-serif', fontSize: '24px' }}
-          >
-            Wander Buddy
-          </span>
+          <a href="/" className="flex items-center"> {/* Added anchor tag with href */}
+            <Avatar className='filter dark:invert'>
+              <AvatarImage src={Logo} />
+              <AvatarFallback>WB</AvatarFallback>
+            </Avatar>
+            <span
+              className='ml-2 text-2xl font-medium'
+              style={{ fontFamily: 'Inter, sans-serif', fontSize: '24px' }}
+            >
+              Wander Buddy
+            </span>
+          </a>
         </div>
         <div className='flex flex-grow justify-center absolute left-1/2 transform -translate-x-1/2'>
           <div className='hidden md:flex'>
