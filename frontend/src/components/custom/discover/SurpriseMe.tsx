@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import Spinner from '../spinner/Spinner';
-import { destinationData } from '@/data/destinationData';
+import { destinationDataLong } from '@/data/destinationDataLong';
 
 const HelpMeChoose = () => {
   const [imagesLoaded, setImagesLoaded] = useState<boolean>(false);
@@ -10,7 +10,7 @@ const HelpMeChoose = () => {
   const navigate = useNavigate();
 
   const selectRandomCity = () => {
-    const randomCity = destinationData[Math.floor(Math.random() * destinationData.length)];
+    const randomCity = destinationDataLong[Math.floor(Math.random() * destinationDataLong.length)];
     setSelectedCity(randomCity);
     setImagesLoaded(false);
     setLoadError(false);
@@ -29,7 +29,7 @@ const HelpMeChoose = () => {
 
   return (
     <div className='flex flex-col items-center w-full'>
-      <h2 className='text-2xl font-bold mb-4 gap-4'>Trending Destination</h2>
+      <h2 className='text-2xl font-bold mb-4 gap-4'>Your Surprise</h2>
       
         <div className='grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4'>
           {selectedCity ? (
