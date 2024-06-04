@@ -4,6 +4,7 @@ import NoMatch from './components/pages/NoMatch';
 import Discover from './components/pages/Discover';
 import CityDetails from './components/custom/discover/CityDetails';
 import { AppLayout } from './components/layouts/AppLayout';
+import Trips from './components/pages/Trips';
 
 export const router = createBrowserRouter([
   {
@@ -21,6 +22,10 @@ export const router = createBrowserRouter([
       {
         path: 'discover/details/:cityName',
         element: <CityDetails />,
+      },
+      {
+        path: 'trips',
+        element: <Trips />,
       },
     ],
   },

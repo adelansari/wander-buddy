@@ -1,54 +1,34 @@
-import { useMatch, Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 import { Footer } from './Footer';
-import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
-import { ModeToggle } from '../custom/themes/mode-toggle';
-import Logo from '@/assets/wander-app-logo-v1.svg';
-import { useState } from 'react';
-import { Menu } from 'lucide-react';
+import NavMenu from './NavMenu';
 
-const routes = [
+interface Route {
+  path: string;
+  name: string;
+}
+
+const routes: Route[] = [
   { path: '/', name: 'Home' },
   { path: '/discover', name: 'Discover' },
+  { path: '/trips', name: 'Trips' },
 ];
 
 export function AppLayout() {
-  const [isOpen, setIsOpen] = useState(false);
+  const location = useLocation();
 
   return (
     <>
-      <nav className='flex justify-between items-center p-4'>
-        <Avatar className='filter dark:invert'>
-          <AvatarImage src={Logo} />
-          <AvatarFallback>WB</AvatarFallback>
-        </Avatar>
-        <div className='md:hidden'>
-          <button onClick={() => setIsOpen(!isOpen)}>
-            <Menu color='currentColor' size={32} />
-          </button>
-        </div>
-        <div className={`${isOpen ? '' : 'hidden'} md:flex`}>
-          {routes.map(({ path, name }) => (
-            <a
-              key={path}
-              href={path}
-              className={`block mt-4 md:inline-block md:mt-0 mr-6 ${
-                useMatch(path) ? 'text-cyan-500 border-b-2 border-cyan-500' : ''
-              }`}
-            >
-              {name}
-            </a>
-          ))}
-        </div>
-        <ModeToggle />
-      </nav>
+      <NavMenu routes={routes} />
       <div className='flex-grow flex flex-col pb-20'>
         <div className='container px-4 md:px-8 flex-grow flex flex-col'>
           <Outlet />
         </div>
       </div>
-      <div className='container px-4 md:px-8'>
-        <Footer />
-      </div>
+      {location.pathname !== '/' && (
+        <div className='container px-4 md:px-8'>
+          <Footer />
+        </div>
+      )}
     </>
   );
 }

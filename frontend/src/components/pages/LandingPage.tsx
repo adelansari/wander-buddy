@@ -1,80 +1,59 @@
-import { useEffect, useRef, useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import axios from 'axios';
-import WeatherCard from '../custom/weather/WeatherCard';
-import { useToast } from '../ui/use-toast';
-import { ToastAction } from '@/components/ui/toast';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Search, CloudSun, Map } from 'lucide-react';
+import backgroundImage from '@/assets/landing-image-1.jpg';
 
-const LandingPage = () => {
-  const [searchValue, setSearchValue] = useState<string>('');
-  const [weatherData, setWeatherData] = useState(null);
-  const weatherCardRef = useRef<HTMLDivElement | null>(null);
-  const { toast } = useToast();
+interface FeatureProps {
+  Icon: React.ElementType;
+  label: string;
+}
 
-  const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchValue(e.target.value);
-  };
+const Feature: React.FC<FeatureProps> = ({ Icon, label }) => (
+  <div className='flex items-center space-x-2'>
+    <Icon className='w-6 h-6' />
+    <span>{label}</span>
+  </div>
+);
 
-  const handleSearch = async () => {
-    try {
-      // Get weather forecast from Symfony backend
-      const weatherResponse = await axios.get(`${import.meta.env.VITE_BACKEND_WEATHER_URL}/api/weather`, {
-        params: {
-          location: searchValue,
-        },
-      });
-      const weatherData = weatherResponse.data;
-      setWeatherData(weatherData);
-    } catch (error) {
-      console.error('Error:', error);
-      let errorMessage = 'An unknown error occurred.';
-      if ((error as any).response && (error as any).response.data && (error as any).response.data.message) {
-        errorMessage = (error as any).response.data.message;
-      }
-      console.error('Error message:', errorMessage);
-      toast({
-        variant: 'destructive',
-        title: 'Uh oh! Something went wrong.',
-        description: 'City not found.',
-        action: <ToastAction altText='Try again'>Try again</ToastAction>,
-      });
-    }
-  };
+const LandingPage: React.FC = () => {
+  const navigate = useNavigate();
 
   useEffect(() => {
-    if (weatherData && weatherCardRef.current) {
-      weatherCardRef.current.scrollIntoView({ behavior: 'smooth' });
-    }
-  }, [weatherData]);
+    document.body.classList.add('overflow-hidden');
+    return () => {
+      document.body.classList.remove('overflow-hidden');
+    };
+  }, []);
 
   return (
-    <div className='p-4'>
-      <h1 className='text-3xl text-center mb-4'>Your Pocket-sized Pathfinder.</h1>
-      <p className='mb-4'>
-        Wander Buddy is your one-stop destination for all your travel needs. Discover, Forecast, and Craft your
-        adventure!
-      </p>
-      <h2 className='text-2xl mb-4'>Features</h2>
-      <ul className='list-disc list-inside mb-4'>
-        <li>Search for destinations</li>
-        <li>View real-time weather forecasts</li>
-        <li>Plan your travel itinerary</li>
-      </ul>
-      <div className='flex items-center'>
-        <Input
-          value={searchValue}
-          onChange={handleInput}
-          placeholder='Search Places ...'
-          className='location-search-input'
+    <div className='relative w-full h-screen overflow-hidden'>
+      <div className='absolute inset-0 overflow-hidden'>
+        <img
+          src={backgroundImage}
+          alt='Background'
+          className='w-full h-full object-cover'
+          style={{ objectPosition: 'center center' }}
         />
-        <Button onClick={handleSearch}>Search</Button>
       </div>
-      {weatherData && (
-        <div ref={weatherCardRef}>
-          <WeatherCard weatherData={weatherData} />
+      <div className='absolute inset-0 flex flex-col items-center justify-center z-10'>
+        <h1 className='text-5xl sm:text-7xl md:text-8xl font-bold text-white text-center p-3 rounded-lg dark:text-black leading-tight'>
+          Unlock Adventure
+          <h2 className='mt-4 sm:mt-6 md:mt-8 text-4xl sm:text-6xl md:text-6xl dark:text-black'>One City at a Time</h2>
+        </h1>
+
+        <div className='grid grid-cols-1 md:grid-cols-3 gap-10 bg-white bg-opacity-75 p-5 rounded-xl md:rounded-full dark:bg-gray-800 dark:bg-opacity-75 px-10 mt-10'>
+          <Feature Icon={Search} label='Destination Search' />
+          <Feature Icon={CloudSun} label='Weather Forecast' />
+          <Feature Icon={Map} label='Itinerary Planner' />
         </div>
-      )}
+
+        <button
+          onClick={() => navigate('/discover')}
+          className='transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 mt-20 px-10 py-3 bg-cyan-500 text-white rounded-lg hover:bg-cyan-600'
+        >
+          Start Here
+        </button>
+      </div>
     </div>
   );
 };
