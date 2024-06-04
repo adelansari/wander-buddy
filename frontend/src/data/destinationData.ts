@@ -1,4 +1,8 @@
 export const destinationData = [
+  'Helsinki',
+  'Bucharest',
+  'Islamabad',
+  'Tehran',
   'Paris',
   'London',
   'New York',
@@ -28,5 +32,4 @@ export const destinationData = [
   'Edinburgh',
   'Zurich',
   'Stockholm',
-  'Helsinki',
 ];
