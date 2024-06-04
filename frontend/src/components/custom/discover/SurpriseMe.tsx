@@ -1,10 +1,11 @@
-import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import Spinner from '../spinner/Spinner';
-import { destinationDataLong } from '@/data/destinationDataLong';
+import { useNavigate } from 'react-router-dom';
 import wikipedia from 'wikipedia';
+import { destinationDataLong } from '@/data/destinationDataLong';
+import Spinner from '../spinner/Spinner';
+import { Button } from '@/components/ui/button';
 
-const HelpMeChoose = () => {
+const SurpriseMe = () => {
   const [imagesLoaded, setImagesLoaded] = useState<boolean>(false);
   const [selectedCity, setSelectedCity] = useState<string>('');
   const [citySummary, setCitySummary] = useState<string>('');
@@ -37,24 +38,10 @@ const HelpMeChoose = () => {
   };
 
   return (
-    <div className='flex flex-col items-center w-full p-4'>
-      <h2 className='text-3xl font-extrabold mb-6'>Surprise Destination</h2>
+    <div className='flex flex-col items-center justify-center'>
+      <h2 className='text-2xl font-bold mb-4 text-center'>Feeling Adventurous?</h2>
 
-      <div className='grid md:grid-cols-2 gap-6 w-full bg-gray-900 p-6 rounded-md shadow-lg'>
-        {citySummary && (
-          <div className='p-4 text-white bg-gray-800 rounded-md h-72 overflow-y-auto'>
-            <h1
-              className='text-2xl font-semibold mb-2 cursor-pointer hover:underline'
-              onClick={() => handleGridItemClick(selectedCity)}
-              tabIndex={0}
-              role='button'
-              aria-label={`Explore ${selectedCity}`}
-            >
-              {selectedCity}
-            </h1>
-            <p className='text-sm'>{citySummary}</p>
-          </div>
-        )}
+      <div className='grid md:grid-cols-2 gap-6 w-full bg-gray-100 dark:bg-gray-900 p-6 rounded-md shadow-lg'>
         {selectedCity ? (
           <div
             className='relative h-72 w-full mx-auto rounded-xl shadow-xl overflow-hidden cursor-pointer transform group hover:scale-105 transition-transform duration-300 flex items-center justify-center'
@@ -69,7 +56,9 @@ const HelpMeChoose = () => {
               alt={selectedCity}
               onLoad={handleImageLoad}
               onError={handleImageError}
-              className={`w-full h-full object-cover transition-opacity duration-500 ${imagesLoaded ? 'opacity-100' : 'opacity-0'}`}
+              className={`w-full h-full object-cover transition-opacity duration-500 ${
+                imagesLoaded ? 'opacity-100' : 'opacity-0'
+              }`}
             />
             {imagesLoaded && !loadError && (
               <div className='absolute bottom-0 left-0 right-0 flex justify-center items-center bg-black bg-opacity-60 text-white p-2 font-serif text-xl font-bold transform translate-y-full group-hover:translate-y-0 transition-transform duration-500'>
@@ -85,16 +74,27 @@ const HelpMeChoose = () => {
         ) : (
           <Spinner />
         )}
+        {citySummary && (
+          <div className='p-4 bg-white dark:bg-gray-800 rounded-lg shadow-md h-72 overflow-y-scroll'>
+            <h1
+              className='text-2xl font-semibold mb-2 cursor-pointer hover:underline'
+              onClick={() => handleGridItemClick(selectedCity)}
+              tabIndex={0}
+              role='button'
+              aria-label={`Explore ${selectedCity}`}
+            >
+              {selectedCity}
+            </h1>
+            <p className='text-sm text-gray-600 dark:text-gray-300'>{citySummary}</p>
+          </div>
+        )}
       </div>
 
-      <button
-        onClick={selectRandomCity}
-        className='mt-8 px-8 py-3 bg-blue-600 text-white rounded-md shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-300'
-      >
-        Show Random City
-      </button>
+      <div className='mt-4'>
+        <Button onClick={selectRandomCity}>Show Random City</Button>
+      </div>
     </div>
   );
 };
 
-export default HelpMeChoose;
+export default SurpriseMe;
