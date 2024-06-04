@@ -20,6 +20,7 @@
     "axios": "^1.7.2",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
+    "framer-motion": "^11.2.10",
     "lucide-react": "^0.379.0",
     "mapbox-gl": "^3.4.0",
     "react": "^18.2.0",
@@ -27,7 +28,8 @@
     "react-router-dom": "^6.23.1",
     "react-wrap-balancer": "^1.1.0",
     "tailwind-merge": "^2.3.0",
-    "tailwindcss-animate": "^1.0.7"
+    "tailwindcss-animate": "^1.0.7",
+    "wikipedia": "^2.1.2"
   },
   "devDependencies": {
     "@types/mapbox__mapbox-sdk": "^0.14.0",
