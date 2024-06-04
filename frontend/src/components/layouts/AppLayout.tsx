@@ -1,6 +1,6 @@
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 import { Footer } from './Footer';
-import  NavMenu  from './NavMenu';
+import NavMenu from './NavMenu';
 
 interface Route {
   path: string;
@@ -14,17 +14,21 @@ const routes: Route[] = [
 ];
 
 export function AppLayout() {
+  const location = useLocation();
+
   return (
     <>
-      <NavMenu routes={routes} /> {/* Use NavMenu */}
+      <NavMenu routes={routes} />
       <div className='flex-grow flex flex-col pb-20'>
         <div className='container px-4 md:px-8 flex-grow flex flex-col'>
           <Outlet />
         </div>
       </div>
-      <div className='container px-4 md:px-8'>
-        <Footer />
-      </div>
+      {location.pathname !== '/' && (
+        <div className='container px-4 md:px-8'>
+          <Footer />
+        </div>
+      )}
     </>
   );
 }
