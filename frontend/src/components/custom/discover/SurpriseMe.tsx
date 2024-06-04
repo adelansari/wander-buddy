@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import Spinner from '../spinner/Spinner';
-import { destinationData } from '@/data/destinationData';
+import { destinationDataLong } from '@/data/destinationDataLong';
 import wikipedia from 'wikipedia';
 
 const HelpMeChoose = () => {
@@ -12,7 +12,7 @@ const HelpMeChoose = () => {
   const navigate = useNavigate();
 
   const selectRandomCity = async () => {
-    const randomCity = destinationData[Math.floor(Math.random() * destinationData.length)];
+    const randomCity = destinationDataLong[Math.floor(Math.random() * destinationDataLong.length)];
     setSelectedCity(randomCity);
     setImagesLoaded(false);
     setLoadError(false);
