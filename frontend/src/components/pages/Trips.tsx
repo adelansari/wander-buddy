@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger, DialogClose } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
+import AddTrip from '../custom/trips/AddTrip';
+import DisplayTrip from '../custom/trips/DisplayTrip';
 
 interface Trip {
   id: number;
@@ -18,6 +20,7 @@ export function Trips() {
   const [nextId, setNextId] = useState(1);
   const [isEditing, setIsEditing] = useState(false);
   const [editingTrip, setEditingTrip] = useState<Trip | null>(null);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const resetForm = () => {
     setStartDate('');
@@ -54,6 +57,7 @@ export function Trips() {
       setNextId(nextId + 1);
     }
     resetForm();
+    setIsDialogOpen(false);
   };
 
   const handleEditTrip = (trip: Trip) => {
@@ -62,77 +66,90 @@ export function Trips() {
     setDestination(trip.destination);
     setStartDate(trip.startDate);
     setEndDate(trip.endDate);
-
+    setIsDialogOpen(true);
   };
 
   const handleUpdate = (updatedTrip: Trip) => {
     setTrips(trips.map(trip => (trip.id === updatedTrip.id ? updatedTrip : trip)));
     resetForm();
+    setIsDialogOpen(false);
   };
 
   const handleCancelEdit = () => {
     resetForm();
+    setIsDialogOpen(false);
   };
 
   const handleDelete = (id: number) => {
     setTrips(trips.filter(trip => trip.id !== id));
   };
 
+  const handleDialogChange = (open: boolean) => {
+    if (!open) {
+      resetForm();
+    }
+    setIsDialogOpen(open);
+  };
+
   return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <Button variant="outline">Add New Trip</Button>
-      </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
-        <DialogHeader>
-          <DialogTitle>My Upcoming Trips</DialogTitle>
-          <DialogDescription>
-            Specify the destination and the dates for your trip.
-          </DialogDescription>
-        </DialogHeader>
-        <form onSubmit={handleSubmit}>
-          <div className="grid gap-4 py-4">
-            <div className="grid grid-cols-4 items-center gap-4">
-              Destination
-              <Input
-                id="destination"
-                value={destination}
-                onChange={handleDestinationChange}
-                className="col-span-3"
-                required
-              />
+    <>
+      <AddTrip />
+      <DisplayTrip />
+      <Dialog open={isDialogOpen} onOpenChange={handleDialogChange}>
+        <DialogTrigger asChild>
+          <Button variant="outline">Add New Trip</Button>
+        </DialogTrigger>
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle>{isEditing ? 'Edit Trip' : 'Add New Trip'}</DialogTitle>
+            <DialogDescription>
+              Specify the destination and the dates for your trip.
+            </DialogDescription>
+          </DialogHeader>
+          <form onSubmit={handleSubmit}>
+            <div className="grid gap-4 py-4">
+              <div className="grid grid-cols-4 items-center gap-4">
+                <label htmlFor="destination" className="col-span-1">Destination</label>
+                <Input
+                  id="destination"
+                  value={destination}
+                  onChange={handleDestinationChange}
+                  className="col-span-3"
+                  required
+                />
+              </div>
+              <div className="grid grid-cols-4 items-center gap-4">
+                <label htmlFor="startDate" className="col-span-1">Start Date</label>
+                <Input
+                  type="date"
+                  id="startDate"
+                  value={startDate}
+                  onChange={handleStartDateChange}
+                  className="col-span-3"
+                  required
+                />
+              </div>
+              <div className="grid grid-cols-4 items-center gap-4">
+                <label htmlFor="endDate" className="col-span-1">End Date</label>
+                <Input
+                  type="date"
+                  id="endDate"
+                  value={endDate}
+                  onChange={handleEndDateChange}
+                  className="col-span-3"
+                  required
+                />
+              </div>
             </div>
-            <div className="grid grid-cols-4 items-center gap-4">
-              Start Date
-              <Input
-                type="date"
-                value={startDate}
-                onChange={handleStartDateChange}
-                className="col-span-3"
-                required
-              />
-            </div>
-            <div className="grid grid-cols-4 items-center gap-4">
-              End Date
-              <Input
-                type="date"
-                value={endDate}
-                onChange={handleEndDateChange}
-                className="col-span-3"
-                required
-              />
-            </div>
-          </div>
-          <DialogFooter>
-          
-            <Button type="submit">{isEditing ? 'Update Trip' : 'Add Trip'}</Button>
-  
-          <DialogClose asChild>
-          { <Button onClick={handleCancelEdit}>Cancel</Button>}
-          </DialogClose>
-          </DialogFooter>
-        </form>
-      </DialogContent>
+            <DialogFooter>
+              <Button type="submit">{isEditing ? 'Update Trip' : 'Add Trip'}</Button>
+              <DialogClose asChild>
+                <Button type="button" onClick={handleCancelEdit}>Cancel</Button>
+              </DialogClose>
+            </DialogFooter>
+          </form>
+        </DialogContent>
+   
       {trips.length > 0 && (
         <div className="px-4">
           <table className="w-full">
@@ -151,11 +168,10 @@ export function Trips() {
                   <td className="py-2">{trip.startDate}</td>
                   <td className="py-2">{trip.endDate}</td>
                   <td className="py-2">
-                  <DialogTrigger asChild>
-                    <Button onClick={() => handleEditTrip(trip)}>Edit</Button>
-                   </DialogTrigger>
+                    <DialogTrigger asChild>
+                      <Button onClick={() => handleEditTrip(trip)}>Edit</Button>
+                    </DialogTrigger>
                     <Button onClick={() => handleDelete(trip.id)}>Delete</Button>
-                    
                   </td>
                 </tr>
               ))}
@@ -163,7 +179,9 @@ export function Trips() {
           </table>
         </div>
       )}
-    </Dialog>
+         </Dialog>
+    </>
   );
 }
+
 export default Trips;
