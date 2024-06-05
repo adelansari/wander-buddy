@@ -21,7 +21,7 @@ export function AppLayout() {
     <>
       <NavMenu routes={routes} />
       <div className='flex-grow flex flex-col'>
-        <div className={`${!isHomePage ? 'container' : ''} px-4 md:px-0 flex-grow flex flex-col`}>
+        <div className={`${!isHomePage ? 'container mb-16' : ''} px-4 md:px-0 flex-grow flex flex-col`}>
           <Outlet />
         </div>
       </div>
