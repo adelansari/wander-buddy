@@ -18,23 +18,15 @@ const Feature: React.FC<FeatureProps> = ({ Icon, label }) => (
 const LandingPage: React.FC = () => {
   const navigate = useNavigate();
 
-  useEffect(() => {
-    document.body.classList.add('overflow-hidden');
-    return () => {
-      document.body.classList.remove('overflow-hidden');
-    };
-  }, []);
-
   return (
-    <div className='relative w-full h-screen overflow-hidden'>
-      <div className='absolute inset-0 overflow-hidden'>
-        <img
-          src={backgroundImage}
-          alt='Background'
-          className='w-full h-full object-cover'
-          style={{ objectPosition: 'center center' }}
-        />
-      </div>
+    <div
+      className='relative w-full min-h-screen overflow-hidden'
+      style={{
+        backgroundImage: `url(${backgroundImage})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center center',
+      }}
+    >
       <div className='absolute inset-0 flex flex-col items-center justify-center z-10'>
         <h1 className='text-5xl sm:text-7xl md:text-8xl font-bold text-white text-center p-3 rounded-lg dark:text-black leading-tight'>
           Unlock Adventure
