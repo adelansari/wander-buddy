@@ -1,21 +1,7 @@
 import { useEffect, useRef, useImperativeHandle, forwardRef } from 'react';
 import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
-
-interface Place {
-  name: string;
-  xid: string;
-  point: {
-    lon: number;
-    lat: number;
-  };
-}
-
-interface MapProps {
-  longitude: number;
-  latitude: number;
-  places: Place[];
-}
+import { MapProps } from '../types/Place';
 
 const Map = forwardRef((props: MapProps, ref) => {
   const { longitude, latitude, places } = props;

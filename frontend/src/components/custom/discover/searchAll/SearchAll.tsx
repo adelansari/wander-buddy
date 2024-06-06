@@ -2,14 +2,14 @@ import { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 import { ToastAction } from '@/components/ui/toast';
 import { useToast } from '@/components/ui/use-toast';
-import WeatherCard, { WeatherData } from '../weather/WeatherCard';
+import WeatherCard, { WeatherData } from '../../weather/WeatherCard';
 import NoSearchResult from '@/assets/empty.png';
 import { getAttractionPlaces } from '@/services/opentripmap';
-import Map from './Map';
-import GoogleMap from './GoogleMap';
-import { Place } from './Place';
-import PlacesTable from './PlacesTable';
-import SearchInput from './SearchInput';
+import Map from '../common/Map';
+import GoogleMap from '../common/GoogleMap';
+import { Place } from '../types/Place';
+import PlacesTable from '../common/PlacesTable';
+import SearchInput from '../common/SearchInput';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 interface WeatherDataWithCoord extends WeatherData {

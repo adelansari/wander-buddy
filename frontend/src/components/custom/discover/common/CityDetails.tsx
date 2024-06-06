@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { ToastAction } from '@/components/ui/toast';
 import { useToast } from '@/components/ui/use-toast';
-import WeatherCard from '../weather/WeatherCard';
+import WeatherCard from '../../weather/WeatherCard';
 
 interface CityDetailsProps {
   cityName?: string;

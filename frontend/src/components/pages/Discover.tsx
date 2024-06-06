@@ -1,7 +1,7 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import SearchAll from '../custom/discover/SearchAll';
-import HelpMeChoose from '../custom/discover/HelpMeChoose';
-import SurpriseMe from '../custom/discover/SurpriseMe';
+import SearchAll from '../custom/discover/searchAll/SearchAll';
+import HelpMeChoose from '../custom/discover/helpMeChoose/HelpMeChoose';
+import SurpriseMe from '../custom/discover/surpriseMe/SurpriseMe';
 
 const Discover = () => {
   return (

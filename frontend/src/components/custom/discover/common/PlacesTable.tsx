@@ -1,6 +1,6 @@
 import { Table } from '@/components/ui/table';
 import React from 'react';
-import { Place } from './Place';
+import { Place } from '../types/Place';
 
 interface PlacesTableProps {
   category: string;

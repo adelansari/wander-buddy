@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import wikipedia from 'wikipedia';
 import { destinationDataLong } from '@/data/destinationDataLong';
-import Spinner from '../spinner/Spinner';
+import Spinner from '../../spinner/Spinner';
 import { Button } from '@/components/ui/button';
 import ShinyButton from '@/components/ui/shiny-button';
 
