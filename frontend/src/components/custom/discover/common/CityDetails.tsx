@@ -28,7 +28,6 @@ const CityDetails: React.FC<CityDetailsProps> = ({ city }) => {
   const [selectedCategory, setSelectedCategory] = useState('interesting_places');
   const [hasError, setHasError] = useState(false);
   const { toast } = useToast();
-  const weatherCardRef = useRef<HTMLDivElement | null>(null);
   const mapRef = useRef<{ addMarkerToMap: (lon: number, lat: number) => void } | null>(null);
 
   const fetchPlaces = async (lon: number, lat: number) => {
@@ -71,14 +70,8 @@ const CityDetails: React.FC<CityDetailsProps> = ({ city }) => {
     fetchData();
   }, [city]);
 
-  useEffect(() => {
-    if (weatherData && weatherCardRef.current) {
-      weatherCardRef.current.scrollIntoView({ behavior: 'smooth' });
-    }
-  }, [weatherData]);
-
   return (
-    <div ref={weatherCardRef}>
+    <div>
       {weatherData && <GoogleMap city={city} />}
       {weatherData ? (
         <div>
