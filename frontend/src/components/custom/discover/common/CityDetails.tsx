@@ -103,7 +103,7 @@ const CityDetails: React.FC<CityDetailsProps> = ({ city }) => {
   </div>
 </div>
 
-      <Tabs defaultValue='interesting_places' className='w-full mt-4'>
+      <Tabs defaultValue='interesting_places' className='w-full mt-7'>
       <TabsList className='flex justify-center items-center w-full md:w-1/2 md:mx-auto'>
   {Object.keys(places).map((category) => (
     <TabsTrigger className='w-full text-center' key={category} value={category} onClick={() => setSelectedCategory(category)}>
