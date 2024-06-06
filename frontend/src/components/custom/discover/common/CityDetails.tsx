@@ -113,8 +113,8 @@ const CityDetails: React.FC<CityDetailsProps> = ({ city }) => {
 </TabsList>
 
         {Object.entries(places).map(([category, places]: [string, Place[]]) => (
-          <TabsContent key={category} value={category}>
-            <PlacesTable category={category} places={places} mapRef={mapRef} />
+          <TabsContent className='p-4 text-2xl font-bold mb-4' key={category} value={category}>
+            <PlacesTable category={categoryDisplayNames[category]} places={places} mapRef={mapRef} />
           </TabsContent>
         ))}
       </Tabs>
