@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import wikipedia from 'wikipedia';
 
+
 interface CitySummaryProps {
   city: string;
 }

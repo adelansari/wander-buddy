@@ -10,10 +10,13 @@ interface SearchInputProps {
 
 const SearchInput: FC<SearchInputProps> = ({ searchValue, handleInput, handleSearch }) => {
   return (
-    <div className='flex justify-center mb-4'>
+    <div className='flex items-center justify-center mb-4'>
+    <div className='flex w-full max-w-sm items-center space-x-2'>
       <Input type='text' placeholder='Search for a city' value={searchValue} onChange={handleInput} className='mr-2' />
       <Button onClick={handleSearch}>Search</Button>
     </div>
+  </div>
+  
   );
 };
 

@@ -1,6 +1,8 @@
-import { Table } from '@/components/ui/table';
+import { useState } from 'react';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import React from 'react';
 import { Place } from '../types/Place';
+import { Button } from '@/components/ui/button';
 
 interface PlacesTableProps {
   category: string;
@@ -8,38 +10,83 @@ interface PlacesTableProps {
   mapRef: React.RefObject<{ addMarkerToMap: (lon: number, lat: number) => void }>;
 }
 
-const PlacesTable: React.FC<PlacesTableProps> = ({ category, places, mapRef }) => (
-  <div key={category}>
-    <h2>{category}</h2>
-    <Table>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Location</th>
-        </tr>
-      </thead>
-      <tbody>
-        {places.map((place: Place) => (
-          <tr key={place.xid}>
-            <td>{place.name}</td>
-            <td>
-              <a
-                href='#'
-                onClick={(e) => {
-                  e.preventDefault();
-                  if (mapRef.current) {
-                    mapRef.current.addMarkerToMap(place.point.lon, place.point.lat);
-                  }
-                }}
-              >
-                {place.point.lon}, {place.point.lat}
-              </a>
-            </td>
-          </tr>
-        ))}
-      </tbody>
-    </Table>
-  </div>
-);
+const PlacesTable: React.FC<PlacesTableProps> = ({ category, places, mapRef }) => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 5;
+
+  const handleClick = (e: React.MouseEvent, lon: number, lat: number) => {
+    e.preventDefault();
+    if (mapRef.current) {
+      mapRef.current.addMarkerToMap(lon, lat);
+    }
+  };
+
+  const handleNextPage = () => {
+    if (currentPage < Math.ceil(places.length / itemsPerPage)) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const handlePreviousPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const currentPlaces = places.slice(startIndex, startIndex + itemsPerPage);
+
+  return (
+    <div className="flex items-center justify-center ">
+      <div className="pt-6 border border-gray-300 rounded-lg w-full md:w-3/4 overflow-x-auto" key={category}>
+        <h2 className="text-center mb-4">{category}</h2>
+        <Table className="mx-auto w-full">
+          <TableHeader>
+            <TableRow>
+              <TableHead className="w-1/2 md:w-[100px]">Name</TableHead>
+              <TableHead className="w-1/2 md:w-auto text-right">Location</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {currentPlaces.map((place: Place) => (
+              <TableRow key={place.xid}>
+                <TableCell className="text-sm">{place.name}</TableCell>
+                <TableCell className="text-right font-medium text-sm">
+                  <a
+                    href="#"
+                    onClick={(e) => handleClick(e, place.point.lon, place.point.lat)}
+                  >
+                    {place.point.lon}, {place.point.lat}
+                  </a>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+        <div className=" p-6 flex justify-between items-center">
+          <Button
+            className="text-sm"
+            variant="outline"
+            onClick={handlePreviousPage}
+            disabled={currentPage === 1}
+          >
+            Previous
+          </Button>
+          <span className="mx-4 text-sm">
+             {currentPage} / {Math.ceil(places.length / itemsPerPage)}
+          </span>
+          <Button
+            className="text-sm"
+            variant="outline"
+            onClick={handleNextPage}
+            disabled={currentPage === Math.ceil(places.length / itemsPerPage)}
+          >
+            Next
+          </Button>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 export default PlacesTable;
