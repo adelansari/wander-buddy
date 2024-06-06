@@ -19,6 +19,16 @@ interface WeatherDataWithCoord extends WeatherData {
   };
 }
 
+type CategoryDisplayNames = {
+  [key: string]: string;
+};
+
+const categoryDisplayNames: CategoryDisplayNames = {
+  interesting_places: 'Interesting places',
+  historic: 'Historic sites',
+  museums: 'Museums',
+};
+
 interface CityDetailsProps {
   city: string;
 }
@@ -93,14 +103,15 @@ const CityDetails: React.FC<CityDetailsProps> = ({ city }) => {
   </div>
 </div>
 
-      <Tabs defaultValue='interesting_places' className='w-full'>
-        <TabsList>
-          {Object.keys(places).map((category) => (
-            <TabsTrigger key={category} value={category} onClick={() => setSelectedCategory(category)}>
-              {category}
-            </TabsTrigger>
-          ))}
-        </TabsList>
+      <Tabs defaultValue='interesting_places' className='w-full mt-4'>
+      <TabsList className='flex justify-center items-center w-full md:w-1/2 md:mx-auto'>
+  {Object.keys(places).map((category) => (
+    <TabsTrigger className='w-full text-center' key={category} value={category} onClick={() => setSelectedCategory(category)}>
+      {categoryDisplayNames[category]}
+    </TabsTrigger>
+  ))}
+</TabsList>
+
         {Object.entries(places).map(([category, places]: [string, Place[]]) => (
           <TabsContent key={category} value={category}>
             <PlacesTable category={category} places={places} mapRef={mapRef} />
