@@ -5,7 +5,7 @@ import SurpriseMe from '../custom/discover/surpriseMe/SurpriseMe';
 
 const Discover = () => {
   return (
-    <Tabs defaultValue='searchAll' className='w-full'>
+    <Tabs defaultValue='searchAll' className='w-full mt-4'>
       <TabsList className='flex justify-center items-center w-full md:w-1/2 md:mx-auto'>
         <TabsTrigger value='searchAll' className='w-full text-center'>
           Search All
