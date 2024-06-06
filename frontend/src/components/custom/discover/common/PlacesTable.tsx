@@ -37,9 +37,9 @@ const PlacesTable: React.FC<PlacesTableProps> = ({ category, places, mapRef }) =
   const currentPlaces = places.slice(startIndex, startIndex + itemsPerPage);
 
   return (
-    <div className="flex items-start justify-center min-h-screen">
-      <div className="p-2 border border-gray-300 rounded-lg w-3/4" key={category}>
-        <h2 className="text-center mb-2">{category}</h2>
+    <div className="flex items-center justify-center ">
+      <div className="pt-6 border border-gray-300 rounded-lg w-3/4" key={category}>
+        <h2 className="text-center mb-4">{category}</h2>
         <Table className="mx-auto w-full">
           <TableHeader>
             <TableRow>
@@ -63,7 +63,7 @@ const PlacesTable: React.FC<PlacesTableProps> = ({ category, places, mapRef }) =
             ))}
           </TableBody>
         </Table>
-        <div className="flex justify-between items-center mt-2">
+        <div className=" p-6 flex justify-between items-center">
           <Button
             className="text-sm"
             variant="outline"

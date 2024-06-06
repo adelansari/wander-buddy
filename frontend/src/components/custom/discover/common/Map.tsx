@@ -53,7 +53,7 @@ const Map = forwardRef((props: MapProps, ref) => {
     };
   }, [longitude, latitude, places]);
 
-  return <div ref={mapContainer} style={{ width: '100%', height: '400px' }} />;
+  return <div ref={mapContainer} style={{ width: '100%', height: '400px' }}  className="w-full h-96 md:h-80 lg:h-96 rounded-lg shadow-md"/>;
 });
 
 export default Map;

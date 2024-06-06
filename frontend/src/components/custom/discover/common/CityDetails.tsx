@@ -113,19 +113,21 @@ const CityDetails: React.FC<CityDetailsProps> = ({ city }) => {
 </TabsList>
 
         {Object.entries(places).map(([category, places]: [string, Place[]]) => (
-          <TabsContent className='p-4 text-2xl font-bold mb-4' key={category} value={category}>
+          <TabsContent className='p-4 text-2xl font-bold' key={category} value={category}>
             <PlacesTable category={categoryDisplayNames[category]} places={places} mapRef={mapRef} />
           </TabsContent>
         ))}
       </Tabs>
+      <div className='w-full md:col-span-3 mt-6'>
       {weatherData && weatherData.coord && (
-        <Map
+        <Map 
           ref={mapRef}
           longitude={weatherData.coord.lon}
           latitude={weatherData.coord.lat}
           places={places[selectedCategory] || []}
         />
       )}
+      </div>
     </div>
   );
 };
