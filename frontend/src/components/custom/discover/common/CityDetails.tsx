@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 import { ToastAction } from '@/components/ui/toast';
 import { useToast } from '@/components/ui/use-toast';
@@ -11,6 +11,7 @@ import GoogleMap from './GoogleMap';
 import PlacesTable from './PlacesTable';
 import Map from './Map';
 import CitySummary from '../common/CitySummary';
+import BackToTopButton from '../../../layouts/BackToTopButton'; 
 
 interface WeatherDataWithCoord extends WeatherData {
   coord: {
@@ -61,7 +62,6 @@ const CityDetails: React.FC<CityDetailsProps> = ({ city }) => {
         });
         setWeatherData(weatherResponse.data);
 
-        // Extract coordinates from the weather API response
         const { coord } = weatherResponse.data;
         if (coord) {
           fetchPlaces(coord.lon, coord.lat);
@@ -82,7 +82,7 @@ const CityDetails: React.FC<CityDetailsProps> = ({ city }) => {
   }, [city]);
 
   return (
-    <div className="bg-gray-100 dark:bg-gray-900 min-h-screen">
+    <div className="bg-gray-100 dark:bg-gray-900 min-h-screen relative">
       <div className="container mx-auto px-4 py-8">
         <h1 className="text-3xl font-bold mb-4 text-center">{city.charAt(0).toUpperCase() + city.slice(1)}</h1>
         <div className="grid md:grid-cols-3 gap-6">
@@ -124,6 +124,7 @@ const CityDetails: React.FC<CityDetailsProps> = ({ city }) => {
             />
           )}
         </div>
+        <BackToTopButton />
       </div>
     </div>
   );
