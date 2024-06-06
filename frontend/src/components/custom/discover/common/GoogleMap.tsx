@@ -12,8 +12,8 @@ const GoogleMap: FC<GoogleMapProps> = ({ city }) => {
       <iframe
         title='Google Map'
         src={googleMapUrl}
-        width='600'
-        height='450'
+        width='400'
+        height='400'
         style={{ border: 0 }}
         allowFullScreen={true}
         loading='lazy'
