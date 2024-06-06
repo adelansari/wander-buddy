@@ -10,6 +10,7 @@ import { Place } from '../types/Place';
 import GoogleMap from './GoogleMap';
 import PlacesTable from './PlacesTable';
 import Map from './Map';
+import CitySummary from '../common/CitySummary';
 
 interface WeatherDataWithCoord extends WeatherData {
   coord: {
@@ -72,6 +73,7 @@ const CityDetails: React.FC<CityDetailsProps> = ({ city }) => {
 
   return (
     <div>
+      <CitySummary city={city} />
       {weatherData && <GoogleMap city={city} />}
       {weatherData ? (
         <div>
