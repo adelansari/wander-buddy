@@ -1,26 +1,13 @@
 import { useEffect, useRef, useImperativeHandle, forwardRef } from 'react';
 import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
-
-interface Place {
-  name: string;
-  xid: string;
-  point: {
-    lon: number;
-    lat: number;
-  };
-}
-
-interface MapProps {
-  longitude: number;
-  latitude: number;
-  places: Place[];
-}
+import { MapProps } from '../types/Place';
 
 const Map = forwardRef((props: MapProps, ref) => {
   const { longitude, latitude, places } = props;
   const mapContainer = useRef<HTMLDivElement | null>(null);
   const mapInstance = useRef<mapboxgl.Map | null>(null);
+  console.log('Rendering Map with props:', props);
 
   const addMarkerToMap = (lon: number, lat: number) => {
     if (mapInstance.current) {

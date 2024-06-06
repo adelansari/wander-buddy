@@ -1,27 +1,20 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import wikipedia from 'wikipedia';
 import { destinationDataLong } from '@/data/destinationDataLong';
-import Spinner from '../spinner/Spinner';
+import Spinner from '../../spinner/Spinner';
 import { Button } from '@/components/ui/button';
 import ShinyButton from '@/components/ui/shiny-button';
+import CitySummary from '../common/CitySummary';
 
 const SurpriseMe = () => {
   const [imagesLoaded, setImagesLoaded] = useState<boolean>(false);
   const [selectedCity, setSelectedCity] = useState<string>('');
-  const [citySummary, setCitySummary] = useState<string>('');
   const navigate = useNavigate();
 
   const fetchRandomCityData = async () => {
     const randomCity = destinationDataLong[Math.floor(Math.random() * destinationDataLong.length)];
     setSelectedCity(randomCity);
     setImagesLoaded(false);
-    try {
-      const summary = await wikipedia.summary(randomCity);
-      setCitySummary(summary.extract);
-    } catch (error) {
-      setCitySummary('Error fetching city summary.');
-    }
   };
 
   const navigateToCityDetails = () => navigate(`/discover/details/${selectedCity}`);
@@ -66,7 +59,7 @@ const SurpriseMe = () => {
               </div>
             )}
           </div>
-          {citySummary && (
+          {selectedCity && (
             <div className='p-4 bg-white dark:bg-gray-800 rounded-lg shadow-md h-72 overflow-y-scroll'>
               <h1
                 className='text-2xl font-semibold mb-2 cursor-pointer hover:underline'
@@ -77,7 +70,9 @@ const SurpriseMe = () => {
               >
                 Summary
               </h1>
-              <p className='text-sm text-gray-600 dark:text-gray-300'>{citySummary}</p>
+              <p className='text-sm text-gray-600 dark:text-gray-300'>
+                <CitySummary city={selectedCity} />
+              </p>
             </div>
           )}
         </div>
