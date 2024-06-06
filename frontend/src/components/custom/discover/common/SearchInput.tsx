@@ -5,19 +5,16 @@ import { FC } from 'react';
 interface SearchInputProps {
   searchValue: string;
   handleInput: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  handleSearch: () => void;
+  handleSearch: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
 }
 
-const SearchInput: FC<SearchInputProps> = ({ searchValue, handleInput, handleSearch }) => (
-  <div className='flex items-center'>
-    <Input
-      value={searchValue}
-      onChange={handleInput}
-      placeholder='Search city'
-      className='location-search-input border p-2 rounded'
-    />
-    <Button onClick={handleSearch}>Search</Button>
-  </div>
-);
+const SearchInput: FC<SearchInputProps> = ({ searchValue, handleInput, handleSearch }) => {
+  return (
+    <div className='flex justify-center mb-4'>
+      <Input type='text' placeholder='Search for a city' value={searchValue} onChange={handleInput} className='mr-2' />
+      <Button onClick={handleSearch}>Search</Button>
+    </div>
+  );
+};
 
 export default SearchInput;
