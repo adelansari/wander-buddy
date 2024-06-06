@@ -38,13 +38,13 @@ const PlacesTable: React.FC<PlacesTableProps> = ({ category, places, mapRef }) =
 
   return (
     <div className="flex items-center justify-center ">
-      <div className="pt-6 border border-gray-300 rounded-lg w-3/4" key={category}>
+      <div className="pt-6 border border-gray-300 rounded-lg w-full md:w-3/4 overflow-x-auto" key={category}>
         <h2 className="text-center mb-4">{category}</h2>
         <Table className="mx-auto w-full">
           <TableHeader>
             <TableRow>
-              <TableHead className="w-[100px]">Name</TableHead>
-              <TableHead className="text-right">Location</TableHead>
+              <TableHead className="w-1/2 md:w-[100px]">Name</TableHead>
+              <TableHead className="w-1/2 md:w-auto text-right">Location</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
