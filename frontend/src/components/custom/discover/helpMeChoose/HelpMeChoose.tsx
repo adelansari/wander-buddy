@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import Spinner from '../spinner/Spinner';
+import Spinner from '../../spinner/Spinner';
 import { destinationData } from '@/data/destinationData';
 
 const HelpMeChoose = () => {

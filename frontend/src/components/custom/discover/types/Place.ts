@@ -6,3 +6,9 @@ export interface Place {
     lat: number;
   };
 }
+
+export interface MapProps {
+  longitude: number;
+  latitude: number;
+  places: Place[];
+}

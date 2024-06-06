@@ -2,15 +2,14 @@ import { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 import { ToastAction } from '@/components/ui/toast';
 import { useToast } from '@/components/ui/use-toast';
-import WeatherCard, { WeatherData } from '../weather/WeatherCard';
+import WeatherCard, { WeatherData } from '../../weather/WeatherCard';
 import NoSearchResult from '@/assets/empty.png';
 import { getAttractionPlaces } from '@/services/opentripmap';
-import Map from './Map';
-import GoogleMap from './GoogleMap';
-import { Place } from './Place';
-import PlacesTable from './PlacesTable';
-import SearchInput from './SearchInput';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Place } from '../types/Place';
+import GoogleMap from './GoogleMap';
+import PlacesTable from './PlacesTable';
+import Map from './Map';
 
 interface WeatherDataWithCoord extends WeatherData {
   coord: {
@@ -19,17 +18,17 @@ interface WeatherDataWithCoord extends WeatherData {
   };
 }
 
-const SearchAll = () => {
-  const [searchValue, setSearchValue] = useState<string>('');
+interface CityDetailsProps {
+  city: string;
+}
+
+const CityDetails: React.FC<CityDetailsProps> = ({ city }) => {
   const [weatherData, setWeatherData] = useState<WeatherDataWithCoord | null>(null);
   const [places, setPlaces] = useState<Record<string, Place[]>>({});
   const [selectedCategory, setSelectedCategory] = useState('interesting_places');
   const [hasError, setHasError] = useState(false);
   const { toast } = useToast();
-  const weatherCardRef = useRef<HTMLDivElement | null>(null);
   const mapRef = useRef<{ addMarkerToMap: (lon: number, lat: number) => void } | null>(null);
-
-  const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => setSearchValue(e.target.value);
 
   const fetchPlaces = async (lon: number, lat: number) => {
     const categories = ['interesting_places', 'historic', 'museums'];
@@ -42,44 +41,40 @@ const SearchAll = () => {
     setPlaces(places);
   };
 
-  const handleSearch = async () => {
-    setHasError(false);
-    try {
-      const weatherResponse = await axios.get(`${import.meta.env.VITE_BACKEND_WEATHER_URL}/api/weather`, {
-        params: { location: searchValue },
-      });
-      setWeatherData(weatherResponse.data);
-
-      // Extract coordinates from the weather API response
-      const { coord } = weatherResponse.data;
-      if (coord) {
-        fetchPlaces(coord.lon, coord.lat);
-      }
-    } catch (error) {
-      toast({
-        variant: 'destructive',
-        title: 'Uh oh! Something went wrong.',
-        description: 'City not found.',
-        action: <ToastAction altText='Try again'>Try again</ToastAction>,
-      });
-      setWeatherData(null);
-      setHasError(true);
-    }
-  };
-
   useEffect(() => {
-    if (weatherData && weatherCardRef.current) {
-      weatherCardRef.current.scrollIntoView({ behavior: 'smooth' });
-    }
-  }, [weatherData]);
+    const fetchData = async () => {
+      setHasError(false);
+      try {
+        const weatherResponse = await axios.get(`${import.meta.env.VITE_BACKEND_WEATHER_URL}/api/weather`, {
+          params: { location: city },
+        });
+        setWeatherData(weatherResponse.data);
+
+        // Extract coordinates from the weather API response
+        const { coord } = weatherResponse.data;
+        if (coord) {
+          fetchPlaces(coord.lon, coord.lat);
+        }
+      } catch (error) {
+        toast({
+          variant: 'destructive',
+          title: 'Uh oh! Something went wrong.',
+          description: 'City not found.',
+          action: <ToastAction altText='Try again'>Try again</ToastAction>,
+        });
+        setWeatherData(null);
+        setHasError(true);
+      }
+    };
+
+    fetchData();
+  }, [city]);
 
   return (
-    <div className='p-4'>
-      <h1 className='text-3xl text-center mb-4'>Where to?</h1>
-      <SearchInput searchValue={searchValue} handleInput={handleInput} handleSearch={handleSearch} />
-      {weatherData && <GoogleMap city={searchValue} />}
+    <div>
+      {weatherData && <GoogleMap city={city} />}
       {weatherData ? (
-        <div ref={weatherCardRef}>
+        <div>
           <WeatherCard weatherData={weatherData} />
         </div>
       ) : hasError ? (
@@ -111,4 +106,4 @@ const SearchAll = () => {
   );
 };
 
-export default SearchAll;
+export default CityDetails;
