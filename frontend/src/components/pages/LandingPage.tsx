@@ -42,7 +42,7 @@ const LandingPage: React.FC = () => {
 
         <button
           onClick={() => navigate('/discover')}
-          className='transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 mt-20 px-10 py-3 bg-cyan-500 text-white rounded-lg hover:bg-cyan-600'
+          className='transition ease-in-out hover:-translate-y-1 hover:scale-110 mt-20 px-10 py-3 bg-cyan-500 text-white rounded-lg hover:bg-cyan-600'
         >
           Start Here
         </button>
