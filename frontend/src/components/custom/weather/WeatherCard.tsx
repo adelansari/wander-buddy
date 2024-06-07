@@ -43,14 +43,14 @@ const WeatherCard: React.FC<WeatherCardProps> = ({ weatherData }) => {
   const [dayOfWeek, date] = dayAndDate.split(', ');
 
   return (
-    <Card className='w-[400px] h-[380px] mx-auto shadow-md rounded-lg bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-300 '>
-      <div className='py-2 px-1 rounded-t-lg text-center bg-gray-200 dark:bg-gray-700'>
+    <Card className='max-w-full w-full sm:w-[600px] mx-auto mt-4 p-0 shadow-md rounded-lg bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-300'>
+      <div className='py-2 px-4 rounded-t-lg text-center bg-gray-200 dark:bg-gray-700'>
         <h2 className='text-xl font-bold'>{name} Weather Forecast</h2>
       </div>
-      <div className='pt-4 h-10 bg-gray-100 dark:bg-gray-900'></div>
+      <div className='pt-4 h-4 bg-gray-100 dark:bg-gray-900'></div>
       <CardContent className='flex bg-gray-100 dark:bg-gray-900'>
-        <div className='flex-1 flex flex-col items-center justify-center bg-white dark:bg-gray-800 p-2 rounded-lg shadow-md'>
-          <div className='text-1xl font-bold mb-3 text-center'>
+        <div className='flex-1 flex flex-col items-center justify-center bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md'>
+          <div className='text-xl font-bold mb-3 text-center'>
             <div>{dayOfWeek}</div>
             <div>{date}</div>
           </div>
