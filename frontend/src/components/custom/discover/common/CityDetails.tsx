@@ -63,6 +63,7 @@ const CityDetails: React.FC<CityDetailsProps> = ({ city }) => {
           params: {
             q: city,
             appid: import.meta.env.VITE_OPENWEATHER_API_KEY,
+            units: 'metric',
           },
         });
         setWeatherData(weatherResponse.data);
