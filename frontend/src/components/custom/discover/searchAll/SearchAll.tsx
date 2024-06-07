@@ -18,7 +18,7 @@ const SearchAll = () => {
     <div className='p-4 '>
       <h1 className='text-3xl text-center mb-4'>Where to?</h1>
       <SearchInput searchValue={searchValue} handleInput={handleInput} handleSearch={handleSearch} />
-      {submittedCity && <CityDetails city={submittedCity} />}
+      {submittedCity && <CityDetails key={submittedCity} city={submittedCity} />}
     </div>
   );
 };
