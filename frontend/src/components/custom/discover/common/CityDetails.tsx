@@ -59,7 +59,7 @@ const CityDetails: React.FC<CityDetailsProps> = ({ city }) => {
     const fetchData = async () => {
       setHasError(false);
       try {
-        const weatherResponse = await axios.get(`http://api.openweathermap.org/data/2.5/weather`, {
+        const weatherResponse = await axios.get(`https://api.openweathermap.org/data/2.5/weather`, {
           params: {
             q: city,
             appid: import.meta.env.VITE_OPENWEATHER_API_KEY,
