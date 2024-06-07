@@ -26,11 +26,13 @@ const LandingPage: React.FC = () => {
         backgroundPosition: 'center center',
       }}
     >
-      <div className='absolute inset-0 flex flex-col items-center justify-center z-10'>
+      <div className='absolute inset-0 flex flex-col items-center justify-center z-10 '>
         <h1 className='text-4xl sm:text-5xl md:text-6xl font-bold text-white text-center p-3 rounded-lg dark:text-black leading-tight'>
           Unlock Adventure
-          <h2 className='mt-4 sm:mt-6 md:mt-8 text-2xl sm:text-3xl md:text-4xl dark:text-black'>One City at a Time</h2>
         </h1>
+        <h2 className='mt-4 sm:mt-6 md:mt-8 text-2xl sm:text-3xl md:text-4xl font-bold text-white dark:text-black'>
+          One City at a Time
+        </h2>
 
         <div className='grid grid-cols-1 md:grid-cols-3 gap-10 bg-white bg-opacity-75 p-5 rounded-xl md:rounded-full dark:bg-gray-800 dark:bg-opacity-75 px-10 mt-10'>
           <Feature Icon={Search} label='Destination Search' />
