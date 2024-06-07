@@ -10,7 +10,7 @@ const SearchAll = () => {
 
   const handleSearch = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
-    setSubmittedCity(searchValue);
+    setSubmittedCity(searchValue.toLowerCase());
     setSearchValue('');
   };
 

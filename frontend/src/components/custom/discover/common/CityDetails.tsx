@@ -108,7 +108,12 @@ const CityDetails: React.FC<CityDetailsProps> = ({ city }) => {
               <h1 className='text-xl font-semibold mb-2' aria-label={`Explore ${city}`}>
                 Summary
               </h1>
-              <CitySummary city={city.toLowerCase()} />
+              <CitySummary
+                city={city
+                  .split(' ')
+                  .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+                  .join('_')}
+              />
             </div>
             <div className='h-96 rounded-xl overflow-hidden cursor-pointer flex items-center justify-center'>
               <GoogleMap city={city} />
