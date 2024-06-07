@@ -43,15 +43,15 @@ const PlacesTable: React.FC<PlacesTableProps> = ({ category, places, mapRef }) =
         <Table className='mx-auto w-full text-gray-600'>
           <TableHeader>
             <TableRow className='border-b-2 border-gray-300 '>
-              <TableHead className='w-1/2 md:w-1/3 py-4 text-left text-md font-bold text-blue-500'>Name</TableHead>
-              <TableHead className='w-1/2 md:w-2/3 py-4 text-right text-md font-bold text-blue-500'>Location</TableHead>
+              <TableHead className='w-1/2 md:w-1/3 py-4 text-left text-md font-bold'>Name</TableHead>
+              <TableHead className='w-1/2 md:w-2/3 py-4 text-right text-md font-bold'>Location</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {currentPlaces.map((place: Place) => (
               <TableRow key={place.xid} className='border-b border-gray-200 hover:bg-gray-100'>
                 <TableCell className='py-4 text-sm'>{place.name}</TableCell>
-                <TableCell className='py-4 text-right font-medium text-sm'>
+                <TableCell className='py-4 text-right font-medium text-sm text-blue-500'>
                   <a
                     href='#'
                     onClick={(e) => handleClick(e, place.point.lon, place.point.lat, place.name)}
