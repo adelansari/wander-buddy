@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 import { ToastAction } from '@/components/ui/toast';
 import { useToast } from '@/components/ui/use-toast';
@@ -11,7 +11,8 @@ import GoogleMap from './GoogleMap';
 import PlacesTable from './PlacesTable';
 import Map from './Map';
 import CitySummary from '../common/CitySummary';
-import BackToTopButton from '../../../layouts/BackToTopButton'; 
+import BackToTopButton from '@/components/layouts/BackToTopButton';
+import Spinner from '../../spinner/Spinner';
 
 interface WeatherDataWithCoord extends WeatherData {
   coord: {
@@ -41,6 +42,7 @@ const CityDetails: React.FC<CityDetailsProps> = ({ city }) => {
   const [hasError, setHasError] = useState(false);
   const { toast } = useToast();
   const mapRef = useRef<{ addMarkerToMap: (lon: number, lat: number) => void } | null>(null);
+  const [imagesLoaded, setImagesLoaded] = useState<boolean>(false);
 
   const fetchPlaces = async (lon: number, lat: number) => {
     const categories = ['interesting_places', 'historic', 'museums'];
@@ -82,50 +84,72 @@ const CityDetails: React.FC<CityDetailsProps> = ({ city }) => {
   }, [city]);
 
   return (
-    <div className="bg-gray-100 dark:bg-gray-900 min-h-screen relative">
-      <div className="container mx-auto px-4 py-8">
-        <h1 className="text-3xl font-bold mb-4 text-center">{city.charAt(0).toUpperCase() + city.slice(1)}</h1>
-        <div className="grid md:grid-cols-3 gap-6">
-          <div className="h-96 p-10 bg-white dark:bg-gray-800 shadow-md rounded-xl overflow-y-scroll transform group hover:scale-105 transition-transform duration-300 flex items-center justify-center">
-            <CitySummary city={city} />
-          </div>
-          <div className="h-96 shadow-md rounded-xl overflow-hidden cursor-pointer transform group hover:scale-105 transition-transform duration-300 flex items-center justify-center">
-            <GoogleMap city={city} />
-          </div>
-          <div className="h-96 shadow-md rounded-xl overflow-hidden cursor-pointer transform group hover:scale-105 transition-transform duration-300 flex items-center justify-center">
-            {weatherData ? (
-              <WeatherCard weatherData={weatherData} />
-            ) : hasError ? (
-              <img src={NoSearchResult} alt="No results found" className="mx-auto w-80 mt-20" />
-            ) : null}
-          </div>
-        </div>
-        <Tabs defaultValue="interesting_places" className="w-full mt-7">
-          <TabsList className="flex justify-center items-center w-full md:w-1/2 md:mx-auto">
-            {Object.keys(places).map((category) => (
-              <TabsTrigger className="w-full text-center" key={category} value={category} onClick={() => setSelectedCategory(category)}>
-                {categoryDisplayNames[category]}
-              </TabsTrigger>
-            ))}
-          </TabsList>
-          {Object.entries(places).map(([category, places]: [string, Place[]]) => (
-            <TabsContent className="p-4 text-2xl font-bold" key={category} value={category}>
-              <PlacesTable category={categoryDisplayNames[category]} places={places} mapRef={mapRef} />
-            </TabsContent>
-          ))}
-        </Tabs>
-        <div className="mt-6">
-          {weatherData && weatherData.coord && (
-            <Map 
-              ref={mapRef}
-              longitude={weatherData.coord.lon}
-              latitude={weatherData.coord.lat}
-              places={places[selectedCategory] || []}
+    <div className='bg-gray-100 dark:bg-gray-900 min-h-screen relative md:w-4/5 mx-auto'>
+      {weatherData ? (
+        <div className='container mx-auto px-4 py-8'>
+          <h1 className='text-3xl font-bold mb-4 text-center'>{city.charAt(0).toUpperCase() + city.slice(1)}</h1>
+          <div className='w-full h-64 md:h-96 relative mb-6 '>
+            {!imagesLoaded && <Spinner />}
+            <img
+              src={`https://source.unsplash.com/800x600/?${city}`}
+              alt={city}
+              onLoad={() => setImagesLoaded(true)}
+              className={`w-full h-full object-cover transition-opacity duration-500 ${
+                imagesLoaded ? 'opacity-100' : 'opacity-0'
+              }`}
             />
-          )}
+          </div>
+          <div className='grid md:grid-cols-2 gap-6'>
+            <div className='h-96 p-10 rounded-xl overflow-y-scroll '>
+              <h1 className='text-xl font-semibold mb-2' aria-label={`Explore ${city}`}>
+                Summary
+              </h1>
+              <CitySummary city={city.toLowerCase()} />
+            </div>
+            <div className='h-96 rounded-xl overflow-hidden cursor-pointer flex items-center justify-center'>
+              <GoogleMap city={city} />
+            </div>
+          </div>
+          <div className='mt-8'>
+            <WeatherCard weatherData={weatherData} />
+          </div>
+
+          <div className='w-full mt-7'>
+            <Tabs defaultValue='interesting_places' className='w-full mt-7'>
+              <TabsList className='flex justify-center items-center w-full md:w-1/2 md:mx-auto'>
+                {Object.keys(places).map((category) => (
+                  <TabsTrigger
+                    className='w-full text-center'
+                    key={category}
+                    value={category}
+                    onClick={() => setSelectedCategory(category)}
+                  >
+                    {categoryDisplayNames[category]}
+                  </TabsTrigger>
+                ))}
+              </TabsList>
+              {Object.entries(places).map(([category, places]: [string, Place[]]) => (
+                <TabsContent className='p-4 text-2xl font-bold' key={category} value={category}>
+                  <PlacesTable category={categoryDisplayNames[category]} places={places} mapRef={mapRef} />
+                </TabsContent>
+              ))}
+            </Tabs>
+          </div>
+          <div className='mt-6'>
+            {weatherData && weatherData.coord && (
+              <Map
+                ref={mapRef}
+                longitude={weatherData.coord.lon}
+                latitude={weatherData.coord.lat}
+                places={places[selectedCategory] || []}
+              />
+            )}
+          </div>
+          <BackToTopButton />
         </div>
-        <BackToTopButton />
-      </div>
+      ) : hasError ? (
+        <img src={NoSearchResult} alt='No results found' className='mx-auto w-80' />
+      ) : null}
     </div>
   );
 };
